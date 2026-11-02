@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>國小自然3上 - 植物與生活、生態生產者及日常應用 16 題大挑戰</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;800;900&family=Nunito:wght@700;900&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+    }
+    .badge-pop {
+      animation: popIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+    @keyframes popIn {
+      0% { transform: scale(0.85); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .tap-effect:active {
+      transform: scale(0.98);
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-b from-emerald-50 via-teal-50/50 to-amber-50/60 text-slate-800 min-h-screen py-6 px-3 sm:px-6 flex flex-col items-center">
+
+  <!-- 頂部頁頭 -->
+  <header class="w-full max-w-4xl text-center mb-6">
+    <div class="inline-flex items-center gap-2 bg-emerald-100/90 text-emerald-800 font-bold px-4 py-1.5 rounded-full text-xs sm:text-sm mb-3 shadow-sm border border-emerald-200">
+      <span>🌿</span>
+      <span>國小自然 3 上 · 活動四：植物與生活、生態生產者及多元應用</span>
+    </div>
+    <h1 class="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight">
+      植物生態生產者與生活應用大挑戰 🍎🌳
+    </h1>
+    <p class="text-slate-600 mt-2 text-xs sm:text-base font-medium max-w-2xl mx-auto leading-relaxed">
+      涵蓋「生態生產者與光合作用、食用營養器官（根莖葉）、食用繁殖器官（花果種）、建築纖維與綠美化」四大領域，共 16 題闖關測驗！
+    </p>
+
+    <!-- 答題進度條卡片 -->
+    <div class="mt-5 bg-white/95 backdrop-blur rounded-3xl p-4 sm:p-5 shadow-sm border border-emerald-100 text-left">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs sm:text-sm font-bold text-slate-800 mb-2.5">
+        <span class="flex items-center gap-2">
+          <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+          作答進度：<span id="answeredCount" class="text-emerald-600 font-black text-base">0</span> / 16 題
+        </span>
+        <span id="statusHint" class="text-amber-600 font-semibold">請點選下方選項開始測驗</span>
+      </div>
+      <div class="w-full bg-emerald-100/80 rounded-full h-3.5 overflow-hidden p-0.5 shadow-inner">
+        <div id="progressBar" class="bg-gradient-to-r from-emerald-400 via-teal-400 to-amber-500 h-full rounded-full transition-all duration-300 w-0"></div>
+      </div>
+      
+      <!-- 快速分類導航按鈕 -->
+      <div class="mt-4 pt-3 border-t border-slate-100 flex flex-wrap gap-2 items-center text-xs">
+        <span class="text-slate-400 font-bold mr-1">單元跳轉：</span>
+        <a href="#cat-1" class="px-3 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 rounded-xl font-bold border border-emerald-200 transition">🌍 1. 生產者與生態 (4)</a>
+        <a href="#cat-2" class="px-3 py-1.5 bg-lime-50 hover:bg-lime-100 text-lime-800 rounded-xl font-bold border border-lime-200 transition">🥕 2. 吃根莖葉 (4)</a>
+        <a href="#cat-3" class="px-3 py-1.5 bg-amber-50 hover:bg-amber-100 text-amber-800 rounded-xl font-bold border border-amber-200 transition">🍉 3. 吃花果種 (4)</a>
+        <a href="#cat-4" class="px-3 py-1.5 bg-teal-50 hover:bg-teal-100 text-teal-800 rounded-xl font-bold border border-teal-200 transition">🪵 4. 建材與綠美化 (4)</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- 題目清單容器 -->
+  <main id="quizContainer" class="w-full max-w-4xl space-y-6">
+    <!-- 16 題由 JavaScript 自動渲染生成 -->
+  </main>
+
+  <!-- 底部交卷控制列 -->
+  <div class="w-full max-w-4xl mt-8 mb-12 flex flex-col items-center">
+    <button id="submitBtn" onclick="calculateScore()" class="w-full sm:w-2/3 py-4 bg-emerald-600 hover:bg-emerald-700 active:scale-98 text-white text-lg font-black rounded-2xl shadow-lg hover:shadow-emerald-400/40 transition duration-200 flex items-center justify-center gap-2 cursor-pointer tap-effect">
+      <span>📝 完成測驗，立即批改 16 題！</span>
+    </button>
+  </div>
+
+  <!-- 結果結算 Modal 彈窗 -->
+  <div id="resultModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4 z-50 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 text-center shadow-2xl border-4 border-emerald-200 relative badge-pop my-8">
+      
+      <!-- 獎章圖示 -->
+      <div id="resultIcon" class="text-6xl sm:text-7xl mb-2 drop-shadow-sm">🏆</div>
+      <h2 id="resultTitle" class="text-2xl sm:text-3xl font-black text-slate-900 mb-1">測驗成績出爐！</h2>
+      
+      <!-- 成績統計牌 -->
+      <div class="my-4 bg-gradient-to-br from-emerald-50 to-amber-50 p-4 sm:p-5 rounded-2xl border-2 border-emerald-100">
+        <div class="text-xs font-bold text-slate-500 mb-1">答對題數與得分率</div>
+        <div class="text-4xl sm:text-5xl font-black text-emerald-600 font-['Nunito'] mb-1">
+          <span id="scoreText">0</span> <span class="text-2xl text-slate-700">/ 16 題</span>
+        </div>
+        <div class="inline-block px-3 py-1 bg-emerald-200 text-emerald-900 rounded-full text-xs font-bold" id="accuracyRate">
+          正確率：0%
+        </div>
+      </div>
+
+      <!-- 老師評語卡片 -->
+      <div class="bg-amber-50 rounded-2xl p-4 border border-amber-200 text-left mb-6">
+        <div class="text-xs font-bold text-amber-900 mb-1.5 flex items-center gap-1.5">
+          <span>💡</span> <span>學習評語與激勵指導：</span>
+        </div>
+        <p id="feedbackText" class="text-sm sm:text-base text-slate-700 font-medium leading-relaxed"></p>
+      </div>
+
+      <!-- 操作按鈕 -->
+      <div class="flex flex-col sm:flex-row gap-3">
+        <button onclick="closeModalAndReview()" class="flex-1 py-3.5 bg-emerald-600 hover:bg-emerald-700 active:scale-98 text-white font-bold rounded-xl shadow-md transition tap-effect">
+          🔍 查看 16 題詳細解析
+        </button>
+        <button onclick="resetQuiz()" class="flex-1 py-3.5 bg-teal-600 hover:bg-teal-700 active:scale-98 text-white font-bold rounded-xl shadow-md transition tap-effect">
+          🔄 重新挑戰一次
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // Web Audio 音效產生器
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    function playTone(freq, type = 'sine', duration = 0.08) {
+      try {
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.06, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch (e) {}
+    }
+
+    function playOptionSound() {
+      playTone(523.25, 'triangle', 0.05); // C5
+    }
+
+    function playPassFanfare() {
+      playTone(523.25, 'sine', 0.1); // C5
+      setTimeout(() => playTone(659.25, 'sine', 0.1), 100); // E5
+      setTimeout(() => playTone(783.99, 'sine', 0.1), 200); // G5
+      setTimeout(() => playTone(1046.50, 'sine', 0.28), 300); // C6
+    }
+
+    function playEncourageSound() {
+      playTone(440.00, 'sine', 0.12);
+      setTimeout(() => playTone(392.00, 'sine', 0.15), 120);
+      setTimeout(() => playTone(523.25, 'sine', 0.25), 260);
+    }
+
+    // 16 道題庫：4 大主題，每主題 4 題
+    const quizData = [
+      // 區塊一：大自然中的生產者與生態平衡 (Q1~Q4)
+      {
+        id: 1,
+        themeId: "cat-1",
+        themeName: "大自然生產者與生態平衡",
+        themeTagColor: "bg-emerald-100 text-emerald-800 border-emerald-300",
+        question: "在大自然生態系中，植物被稱為「生產者」，而動物多數屬於「消費者」，兩者在行為上最主要的差別是什麼？",
+        options: [
+          { key: "A", text: "A. 植物能進行光合作用自己製造養分，動物則需要從外界攝取營養" },
+          { key: "B", text: "B. 植物每天都必須在校園裡奔跑尋找食物" },
+          { key: "C", text: "C. 動物能夠在體內自己製造陽光和雨水" },
+          { key: "D", text: "D. 植物不用吸收水分就能永遠生存" }
+        ],
+        answer: "A",
+        explain: "【生產者 vs 消費者】教師手冊課本第14、15頁說明：植物屬於「自營生物」，葉綠體能透過光合作用自己製造養分，扮演「生產者」角色；動物無法自己製造養分，必須攝食其他生物，屬於「消費者」。"
+      },
+      {
+        id: 2,
+        themeId: "cat-1",
+        themeName: "大自然生產者與生態平衡",
+        themeTagColor: "bg-emerald-100 text-emerald-800 border-emerald-300",
+        question: "綠色植物的葉片中含有葉綠體，能利用光能把水分和二氧化碳轉化成什麼養分，同時釋放出動物呼吸所需的氣體？",
+        options: [
+          { key: "A", text: "A. 製造出葡萄糖，並釋放出氧氣" },
+          { key: "B", text: "B. 製造出水泥塊，並釋放出毒氣" },
+          { key: "C", text: "C. 製造出鹽酸，並釋放出二氧化碳" },
+          { key: "D", text: "D. 製造出金屬，並吸收所有空氣" }
+        ],
+        answer: "A",
+        explain: "【光合作用反應】手冊延伸資料反應式：二氧化碳＋水＋光能 → 葡萄糖＋氧氣＋水。植物製造出的葡萄糖是生長養分，產生的氧氣是多數生物維持生命不可或缺的要素。"
+      },
+      {
+        id: 3,
+        themeId: "cat-1",
+        themeName: "大自然生產者與生態平衡",
+        themeTagColor: "bg-emerald-100 text-emerald-800 border-emerald-300",
+        question: "山坡地上如果種滿健康的樹木與深根植物，遇到大雨時比較不容易發生土石流。這是因為植物的哪一個器官發揮了重要功能？",
+        options: [
+          { key: "A", text: "A. 植物的根深入土壤並牢牢抓住泥土，能保持水土防止流失" },
+          { key: "B", text: "B. 植物的花瓣像雨傘把所有雨水接住蒸發" },
+          { key: "C", text: "C. 植物的果實太重把整座山壓得硬梆梆" },
+          { key: "D", text: "D. 植物的葉片會發熱把泥土烘烤乾燥" }
+        ],
+        answer: "A",
+        explain: "【根系抓土與水土保持】教師手冊提到：「幾乎所有的植物根都會深入土壤中並牢牢地抓住地面」，具有保護表土、涵養水源、避免山坡土石鬆動滑落的重大生態功能。"
+      },
+      {
+        id: 4,
+        themeId: "cat-1",
+        themeName: "大自然生產者與生態平衡",
+        themeTagColor: "bg-emerald-100 text-emerald-800 border-emerald-300",
+        question: "大自然中許多動物的生活與植物密不可分，下列哪一項敘述「無法」呈現植物與動物共生或維持生態穩定的現象？",
+        options: [
+          { key: "A", text: "A. 樹木生長速度太慢，導致森林完全沒有動物願意居住" },
+          { key: "B", text: "B. 許多鳥類在樹冠上築巢育雛，依靠樹木提供遮蔽與居所" },
+          { key: "C", text: "C. 植物以花蜜吸引蜜蜂授粉，蜜蜂採蜜繁衍蜂群" },
+          { key: "D", text: "D. 動物吃下植物果實後排泄，協助種子擴散繁衍" }
+        ],
+        answer: "A",
+        explain: "【植物與動物的生態鏈結】手冊植物重要性指出：許多動物依靠植物作為居所和食物；植物以花蜜換取昆蟲授粉，或靠動物採食排泄散播種子。因此 A 選項是錯誤的敘述。"
+      },
+
+      // 區塊二：我們吃植物的哪裡？（營養器官篇：根、莖、葉）(Q5~Q8)
+      {
+        id: 5,
+        themeId: "cat-2",
+        themeName: "我們吃植物的哪裡？（營養器官篇）",
+        themeTagColor: "bg-lime-100 text-lime-800 border-lime-300",
+        question: "廚房裡常見的「胡蘿蔔、白蘿蔔、番薯（地瓜）」，它們在泥土裡膨大儲存了豐富養分，在植物構造上屬於哪一個器官？",
+        options: [
+          { key: "A", text: "A. 根" },
+          { key: "B", text: "B. 花" },
+          { key: "C", text: "C. 葉" },
+          { key: "D", text: "D. 果實" }
+        ],
+        answer: "A",
+        explain: "【食用部位-根】胡蘿蔔、白蘿蔔（軸根主根膨大）與番薯（塊根）都是植物膨大儲藏大量養分的「根」部，屬於營養器官。"
+      },
+      {
+        id: 6,
+        themeId: "cat-2",
+        themeName: "我們吃植物的哪裡？（營養器官篇）",
+        themeTagColor: "bg-lime-100 text-lime-800 border-lime-300",
+        question: "小朋友最喜歡吃的炸薯條是由「馬鈴薯」製成；夏天清涼退火的「甘蔗汁」與竹林裡採收的「竹筍」，我們主要食用的部位都是植物的什麼？",
+        options: [
+          { key: "A", text: "A. 莖" },
+          { key: "B", text: "B. 種子" },
+          { key: "C", text: "C. 根毛" },
+          { key: "D", text: "D. 花瓣" }
+        ],
+        answer: "A",
+        explain: "【食用部位-莖】馬鈴薯是地下發育的「塊莖」，甘蔗是挺立多汁的「地上莖」，竹筍則是竹子的幼「嫩莖」，我們食用的都是植物的「莖」。"
+      },
+      {
+        id: 7,
+        themeId: "cat-2",
+        themeName: "我們吃植物的哪裡？（營養器官篇）",
+        themeTagColor: "bg-lime-100 text-lime-800 border-lime-300",
+        question: "學校營養午餐常出現的「小白菜、高麗菜、菠菜、空心菜」，我們主要夾來吃的是植物的哪一個器官？",
+        options: [
+          { key: "A", text: "A. 葉" },
+          { key: "B", text: "B. 果實" },
+          { key: "C", text: "C. 根" },
+          { key: "D", text: "D. 花萼" }
+        ],
+        answer: "A",
+        explain: "【食用部位-葉】小白菜、菠菜、高麗菜（葉球層疊包覆）、空心菜主要提供食用的是具有光合作用功能的「葉」片（含葉柄）。"
+      },
+      {
+        id: 8,
+        themeId: "cat-2",
+        themeName: "我們吃植物的哪裡？（營養器官篇）",
+        themeTagColor: "bg-lime-100 text-lime-800 border-lime-300",
+        question: "媽媽切開「洋蔥」時常常會熏得流眼淚。洋蔥那一層層肥厚多汁、層層包裹的構造，在植物學上稱為「鱗莖」，本質上是由什麼器官特化變形而來的？",
+        options: [
+          { key: "A", text: "A. 莖（或鱗片葉特化儲藏莖）" },
+          { key: "B", text: "B. 花瓣" },
+          { key: "C", text: "C. 主根" },
+          { key: "D", text: "D. 果實" }
+        ],
+        answer: "A",
+        explain: "【洋蔥是鱗莖】洋蔥底部有一圈扁平的「短縮莖」，周圍包覆著肥厚儲存養分的肉質「鱗葉」，合稱為「鱗莖」，屬於莖部特化構造。"
+      },
+
+      // 區塊三：我們吃植物的哪裡？（繁殖器官篇：花、果實、種子）(Q9~Q12)
+      {
+        id: 9,
+        themeId: "cat-3",
+        themeName: "我們吃植物的哪裡？（繁殖器官篇）",
+        themeTagColor: "bg-amber-100 text-amber-800 border-amber-300",
+        question: "家常菜「金針排骨湯」裡黃澄澄的金針花，以及餐桌上綠色的「花椰菜、青花菜」，我們吃下肚的部位屬於植物的哪一個繁殖器官？",
+        options: [
+          { key: "A", text: "A. 花（或未成熟的花蕾花苞群）" },
+          { key: "B", text: "B. 根" },
+          { key: "C", text: "C. 樹皮" },
+          { key: "D", text: "D. 木質莖" }
+        ],
+        answer: "A",
+        explain: "【食用部位-花】金針是採摘其乾燥花苞；青花菜與花椰菜那一顆顆綠白色的密集構造，其實是由成千上萬個尚未綻放的「花蕾與花花序」組成，屬於植物的花器官。"
+      },
+      {
+        id: 10,
+        themeId: "cat-3",
+        themeName: "我們吃植物的哪裡？（繁殖器官篇）",
+        themeTagColor: "bg-amber-100 text-amber-800 border-amber-300",
+        question: "小玲今天吃了「番茄炒蛋、絲瓜蛤蜊湯」，飯後還吃了「紅肉芭樂（番石榴）」。這些美味的食材在植物構造上全都是植物的什麼？",
+        options: [
+          { key: "A", text: "A. 果實" },
+          { key: "B", text: "B. 根" },
+          { key: "C", text: "C. 葉脈" },
+          { key: "D", text: "D. 花托" }
+        ],
+        answer: "A",
+        explain: "【食用部位-果實】番茄、絲瓜、小黃瓜、番石榴都是開花授粉後，由子房發育膨大包覆種子的「果實」，在蔬菜與水果中都非常普遍。"
+      },
+      {
+        id: 11,
+        themeId: "cat-3",
+        themeName: "我們吃植物的哪裡？（繁殖器官篇）",
+        themeTagColor: "bg-amber-100 text-amber-800 border-amber-300",
+        question: "我們每天吃的「白米飯（稻米）」、煮成甜湯的「紅豆、綠豆」，以及電影院常吃的爆米花（玉米粒），它們屬於植物身體的哪一個構造？",
+        options: [
+          { key: "A", text: "A. 種子" },
+          { key: "B", text: "B. 木質莖" },
+          { key: "C", text: "C. 軸根" },
+          { key: "D", text: "D. 葉片" }
+        ],
+        answer: "A",
+        explain: "【食用部位-種子】稻米、小麥、綠豆、紅豆、玉米粒、花生等，都是受精後胚珠發育而成、蘊藏豐富澱粉與養分的「種子」。"
+      },
+      {
+        id: 12,
+        themeId: "cat-3",
+        themeName: "我們吃植物的哪裡？（繁殖器官篇）",
+        themeTagColor: "bg-amber-100 text-amber-800 border-amber-300",
+        question: "有些植物的不同器官都能被我們做成美食。例如「蓮花（荷花）」長在水底泥土裡的蓮藕是地下莖，而蓮蓬裡一顆顆圓圓硬硬的蓮子則是植物的什麼？",
+        options: [
+          { key: "A", text: "A. 種子" },
+          { key: "B", text: "B. 鬚根" },
+          { key: "C", text: "C. 花瓣" },
+          { key: "D", text: "D. 葉柄" }
+        ],
+        answer: "A",
+        explain: "【荷花全身都是寶】蓮藕是蓮花肥大的地下莖（莖）；飄浮水面的荷葉是葉片；美麗的荷花是花；而蓮蓬中採收出來的「蓮子」則是成熟的「種子」。"
+      },
+
+      // 區塊四：生活建材、日用品與環境綠美化 (Q13~Q16)
+      {
+        id: 13,
+        themeId: "cat-4",
+        themeName: "生活建材、日用品與環境綠美化",
+        themeTagColor: "bg-teal-100 text-teal-800 border-teal-300",
+        question: "教室裡的木製課桌椅、家裡的木質地板，以及傳統的木屋建築，大多是砍伐後經過加工乾燥的木材製成。這些木材取自植物的哪一部分？",
+        options: [
+          { key: "A", text: "A. 高大樹木的木本莖（樹幹）" },
+          { key: "B", text: "B. 嫩綠的葉片" },
+          { key: "C", text: "C. 盛開的花瓣" },
+          { key: "D", text: "D. 隨風飄散的花粉" }
+        ],
+        answer: "A",
+        explain: "【木本莖作為建材】喬木或樹木粗壯堅硬的「木本莖」（木質部幹材），具有極高的承重與支撐力，常被砍伐加工成建築樑柱、家具、木地板等實用物資。"
+      },
+      {
+        id: 14,
+        themeId: "cat-4",
+        themeName: "生活建材、日用品與環境綠美化",
+        themeTagColor: "bg-teal-100 text-teal-800 border-teal-300",
+        question: "日常生活中我們寫字畫畫用的「紙張」，以及身上穿的舒服「純棉短袖 T 恤」，主要是提煉植物的哪種天然成分或原料製成的？",
+        options: [
+          { key: "A", text: "A. 樹木竹子的植物纖維與棉花纖維" },
+          { key: "B", text: "B. 泥土裡的沙石" },
+          { key: "C", text: "C. 動物脫落的指甲" },
+          { key: "D", text: "D. 塑膠化學廢棄物" }
+        ],
+        answer: "A",
+        explain: "【植物纖維造紙與織布】紙張是由樹木木漿或竹子的植物纖維抄造而成；棉質衣物則是利用棉花果實內種子表皮纖維紡紗織成，是植物在生活上的重要貢獻。"
+      },
+      {
+        id: 15,
+        themeId: "cat-4",
+        themeName: "生活建材、日用品與環境綠美化",
+        themeTagColor: "bg-teal-100 text-teal-800 border-teal-300",
+        question: "都市的大馬路旁常種植一整排高大整齊的「樟樹、臺灣欒樹」等行道樹，植物在城市景觀與環境中扮演什麼重要好處？",
+        options: [
+          { key: "A", text: "A. 綠美化景觀、提供綠蔭、吸附灰塵並減緩都市熱度" },
+          { key: "B", text: "B. 專門吸引大量蚊蟲叮咬行人" },
+          { key: "C", text: "C. 阻擋所有陽光讓城市完全失去光明" },
+          { key: "D", text: "D. 讓柏油路面溫度變得比沙漠還要炎熱" }
+        ],
+        answer: "A",
+        explain: "【行道樹與綠美化】行道樹能遮蔭降溫、進行光合作用淨化空氣、吸附懸浮粉塵、減緩都市熱島效應，同時使街道風景賞心悅目。"
+      },
+      {
+        id: 16,
+        themeId: "cat-4",
+        themeName: "生活建材、日用品與環境綠美化",
+        themeTagColor: "bg-teal-100 text-teal-800 border-teal-300",
+        question: "除了吃與住之外，植物也常被應用在醫藥、美容或香料中（例如蘆薈保濕舒緩、樟腦驅蟲、薄荷清涼提神）。這說明了什麼大自然的道理？",
+        options: [
+          { key: "A", text: "A. 植物多元應用在生活各層面，我們應該愛護並珍惜植物資源" },
+          { key: "B", text: "B. 植物對人類完全沒有任何價值，不用理會它" },
+          { key: "C", text: "C. 只要把全世界的植物全部砍光，生活就會變得更方便" },
+          { key: "D", text: "D. 植物只會生長在課本裡，日常生活中根本用不到" }
+        ],
+        answer: "A",
+        explain: "【單元綜合省思】植物從氧氣供應、食物來源、建材日用品到綠化醫療，全面支持著人類與地球生態系運作，我們應該愛護校園與大自然中的所有植物。"
+      }
+    ];
+
+    let userAnswers = {};
+    let isSubmitted = false;
+
+    // 渲染 16 道題目
+    function renderQuiz() {
+      const container = document.getElementById('quizContainer');
+      container.innerHTML = "";
+
+      let currentTheme = "";
+
+      quizData.forEach((item, index) => {
+        // 主題分組標題
+        if (item.themeName !== currentTheme) {
+          currentTheme = item.themeName;
+          const sectionHeader = document.createElement('div');
+          sectionHeader.id = item.themeId;
+          sectionHeader.className = "pt-5 pb-1";
+          sectionHeader.innerHTML = `
+            <div class="flex items-center gap-2">
+              <span class="w-3.5 h-6 bg-emerald-600 rounded-full inline-block"></span>
+              <h2 class="text-lg sm:text-xl font-black text-slate-900">
+                學習主題：${item.themeName}（共 4 題）
+              </h2>
+            </div>
+          `;
+          container.appendChild(sectionHeader);
+        }
+
+        const card = document.createElement('div');
+        card.className = "bg-white rounded-3xl p-5 sm:p-7 shadow-sm border-2 border-emerald-100/90 transition duration-200 hover:shadow-md";
+        card.id = `card-q-${item.id}`;
+
+        let optionsHtml = item.options.map(opt => `
+          <label class="option-label flex items-start gap-3 p-3.5 sm:p-4 rounded-2xl border-2 border-slate-200 hover:border-emerald-300 hover:bg-emerald-50/40 cursor-pointer transition select-none tap-effect" id="opt-${item.id}-${opt.key}">
+            <input type="radio" name="q-${item.id}" value="${opt.key}" onchange="selectOption(${item.id}, '${opt.key}')" class="mt-1 w-4 h-4 text-emerald-600 focus:ring-emerald-500 cursor-pointer">
+            <span class="text-sm sm:text-base font-semibold text-slate-700 leading-relaxed">${opt.text}</span>
+          </label>
+        `).join('');
+
+        card.innerHTML = `
+          <div class="flex items-center justify-between mb-3">
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-black px-2.5 py-1 bg-emerald-600 text-white rounded-full">第 ${index + 1} / 16 題</span>
+              <span class="text-xs font-bold px-2.5 py-0.5 rounded-full border ${item.themeTagColor}">
+                ${item.themeName}
+              </span>
+            </div>
+            <span id="badge-q-${item.id}" class="text-xs font-bold text-slate-400">尚未填答</span>
+          </div>
+
+          <h3 class="text-base sm:text-lg font-bold text-slate-900 mb-4 leading-relaxed">${item.question}</h3>
+
+          <div class="space-y-2.5 flex flex-col">
+            ${optionsHtml}
+          </div>
+
+          <!-- 解析區塊（交卷後展示） -->
+          <div id="explain-${item.id}" class="mt-4 p-4 rounded-2xl hidden text-xs sm:text-sm leading-relaxed border"></div>
+        `;
+
+        container.appendChild(card);
+      });
+
+      updateProgress();
+    }
+
+    // 選擇答案
+    function selectOption(qId, key) {
+      if (isSubmitted) return;
+      playOptionSound();
+
+      userAnswers[qId] = key;
+
+      // 標註已作答
+      const badge = document.getElementById(`badge-q-${qId}`);
+      if (badge) {
+        badge.textContent = "已作答 ✔";
+        badge.className = "text-xs font-bold text-emerald-600";
+      }
+
+      // 高亮當前題目選取樣式
+      const options = document.querySelectorAll(`[id^="opt-${qId}-"]`);
+      options.forEach(opt => {
+        opt.classList.remove('border-emerald-500', 'bg-emerald-50', 'ring-2', 'ring-emerald-200');
+        opt.classList.add('border-slate-200');
+      });
+      const selected = document.getElementById(`opt-${qId}-${key}`);
+      if (selected) {
+        selected.classList.remove('border-slate-200');
+        selected.classList.add('border-emerald-500', 'bg-emerald-50', 'ring-2', 'ring-emerald-200');
+      }
+
+      updateProgress();
+    }
+
+    // 更新進度條
+    function updateProgress() {
+      const count = Object.keys(userAnswers).length;
+      document.getElementById('answeredCount').textContent = count;
+      const percent = (count / quizData.length) * 100;
+      document.getElementById('progressBar').style.width = `${percent}%`;
+
+      const hint = document.getElementById('statusHint');
+      if (count === quizData.length) {
+        hint.textContent = "太棒了！16 題已全數填答完畢，隨時可以結算交卷 🍎";
+        hint.className = "text-xs sm:text-sm font-bold text-emerald-600 animate-pulse";
+      } else {
+        hint.textContent = `已完成 ${count} 題，還有 ${quizData.length - count} 題尚未填答`;
+        hint.className = "text-xs sm:text-sm font-bold text-amber-600";
+      }
+    }
+
+    // 提交測驗與計算成績
+    function calculateScore() {
+      const answeredCount = Object.keys(userAnswers).length;
+      if (answeredCount < quizData.length) {
+        const confirmSubmit = window.confirm(`親愛的小朋友，你還有 ${quizData.length - answeredCount} 題尚未作答，確定要現在結算交卷嗎？`);
+        if (!confirmSubmit) return;
+      }
+
+      isSubmitted = true;
+      let correctCount = 0;
+
+      quizData.forEach(item => {
+        const userChoice = userAnswers[item.id];
+        const isCorrect = userChoice === item.answer;
+        if (isCorrect) correctCount++;
+
+        const expBox = document.getElementById(`explain-${item.id}`);
+        expBox.classList.remove('hidden');
+
+        if (isCorrect) {
+          expBox.classList.add('bg-emerald-50', 'text-emerald-950', 'border-emerald-200');
+          expBox.innerHTML = `
+            <div class="font-extrabold text-emerald-700 flex items-center gap-1.5 mb-1">
+              <span>✅ 答對了！ 正確答案是（${item.answer}）</span>
+            </div>
+            <div class="text-slate-700 font-medium">${item.explain}</div>
+          `;
+        } else {
+          expBox.classList.add('bg-rose-50', 'text-rose-950', 'border-rose-200');
+          expBox.innerHTML = `
+            <div class="font-extrabold text-rose-700 flex items-center gap-1.5 mb-1">
+              <span>❌ 答錯囉！ 你的選擇是（${userChoice || "未填"}），正確答案應該是（${item.answer}）</span>
+            </div>
+            <div class="text-slate-700 font-medium">${item.explain}</div>
+          `;
+        }
+
+        // 標記選項
+        item.options.forEach(opt => {
+          const optElem = document.getElementById(`opt-${item.id}-${opt.key}`);
+          const inputRadio = optElem.querySelector('input');
+          inputRadio.disabled = true;
+
+          if (opt.key === item.answer) {
+            optElem.classList.remove('border-slate-200', 'bg-emerald-50');
+            optElem.classList.add('border-emerald-500', 'bg-emerald-100', 'font-bold');
+          } else if (opt.key === userChoice && !isCorrect) {
+            optElem.classList.remove('border-slate-200');
+            optElem.classList.add('border-rose-400', 'bg-rose-100', 'text-rose-800');
+          }
+        });
+      });
+
+      // 禁用交卷鈕
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = true;
+      submitBtn.classList.remove('bg-emerald-600', 'hover:bg-emerald-700');
+      submitBtn.classList.add('bg-slate-400', 'cursor-not-allowed');
+      submitBtn.innerHTML = "<span>🎉 測驗完成，已在下方列出 16 題詳細生活科學解析</span>";
+
+      if (correctCount >= 12) {
+        playPassFanfare();
+      } else {
+        playEncourageSound();
+      }
+
+      showResultModal(correctCount);
+    }
+
+    // 彈出評語與成績視窗
+    function showResultModal(score) {
+      const modal = document.getElementById('resultModal');
+      const scoreText = document.getElementById('scoreText');
+      const rateText = document.getElementById('accuracyRate');
+      const icon = document.getElementById('resultIcon');
+      const title = document.getElementById('resultTitle');
+      const feedback = document.getElementById('feedbackText');
+
+      scoreText.textContent = score;
+      const percent = Math.round((score / quizData.length) * 100);
+      rateText.textContent = `正確率：${percent}%`;
+
+      if (score >= 15) {
+        icon.textContent = "🏆";
+        title.textContent = "生態綠能小院士！滿分榮耀！";
+        feedback.textContent = `太神了！你答對了 ${score} 題！你清楚明白植物如何扮演生產者製造氧氣養分、保護水土，還能神準分辨我們每天吃的根莖葉花果種，連木材建材與行道樹綠美化都難不倒你！你是當之無愧的大自然科學博士！🌳👑`;
+      } else if (score >= 12) {
+        icon.textContent = "🌟";
+        title.textContent = "植物生活達人！表現非常優秀！";
+        feedback.textContent = `太棒了！你答對了 ${score} 題。你對植物與日常生活的緊密連結掌握得非常扎實！只有幾題特殊的食用器官（例如洋蔥是鱗莖、馬鈴薯是塊莖）需要稍微釐清。點擊下方按鈕閱讀解析，你很快就能拿下 16 題滿分！🥦✨`;
+      } else if (score >= 8) {
+        icon.textContent = "🌿";
+        title.textContent = "綠色探索家！繼續加油！";
+        feedback.textContent = `你答對了 ${score} 題，已經掌握了一半以上的重要觀念！植物在大自然扮演生產者，而餐桌上的食材則是植物的不同器官。建議多複習「根、莖、葉與果實種子的分辨」，看完詳細解析後再測驗一次，肯定大幅進步！🌱💪`;
+      } else {
+        icon.textContent = "🌱";
+        title.textContent = "大自然小萌芽，再接再厲！";
+        feedback.textContent = `這次答對了 ${score} 題，別灰心！自然科學和我們的餐桌生活息息相關。老師在每一題底下都寫了詳細淺顯的課堂重點解析，花 3 分鐘仔細看一遍，再點擊「重新挑戰一次」，你的科學實力一定會像大樹一樣茁壯成長！🌾📖`;
+      }
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    // 關閉彈窗並檢視解析
+    function closeModalAndReview() {
+      const modal = document.getElementById('resultModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      window.scrollTo({ top: 380, behavior: 'smooth' });
+    }
+
+    // 重新測驗重置
+    function resetQuiz() {
+      userAnswers = {};
+      isSubmitted = false;
+
+      const modal = document.getElementById('resultModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = false;
+      submitBtn.className = "w-full sm:w-2/3 py-4 bg-emerald-600 hover:bg-emerald-700 active:scale-98 text-white text-lg font-black rounded-2xl shadow-lg hover:shadow-emerald-400/40 transition duration-200 flex items-center justify-center gap-2 cursor-pointer tap-effect";
+      submitBtn.innerHTML = "<span>📝 完成測驗，立即批改 16 題！</span>";
+
+      renderQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    window.onload = function() {
+      renderQuiz();
+    };
+  </script>
+</body>
+</html>
